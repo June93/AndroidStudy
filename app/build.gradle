@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.june.androidstudy'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.june.androidstudy"
         minSdk 24
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 
@@ -35,6 +35,7 @@ android {
     }
     buildFeatures {
         compose true
+        viewBinding true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.5.1'
