@@ -26,6 +26,16 @@
         <activity
             android:name=".coroutine.CoroutineActivity"
             android:exported="false" />
+        <activity
+            android:name=".launchmode.OneActivity"
+            android:launchMode="singleTop"
+            android:exported="false" />
+        <activity
+            android:name=".launchmode.SecondActivity"
+            android:exported="false" />
+        <activity
+            android:name=".launchmode.ThirdActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.june.androidstudy
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,11 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.june.androidstudy.coroutine.CoroutineActivity
+import com.june.androidstudy.launchmode.OneActivity
 import com.june.androidstudy.ui.theme.AndroidStudyTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("activity","onCreate:${this.javaClass.simpleName}")
         enableEdgeToEdge()
         setContent {
             AndroidStudyTheme {
@@ -32,11 +35,43 @@ class MainActivity : ComponentActivity() {
                             name = "Android", modifier = Modifier.padding(innerPadding)
                         )
                         Coroutine(activity = this@MainActivity)
+                        SingleTop(activity = this@MainActivity)
                     }
                 }
             }
         }
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("activity","onRestart:${this.javaClass.simpleName}")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("activity","onStart:${this.javaClass.simpleName}")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("activity","onResume:${this.javaClass.simpleName}")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("activity","onPause:${this.javaClass.simpleName}")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("activity","onStop:${this.javaClass.simpleName}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("activity","onDestroy:${this.javaClass.simpleName}")
+    }
+
 }
 
 @Composable
@@ -53,6 +88,19 @@ fun Coroutine(activity: MainActivity) {
     }) {
         Text(
             text = "协程", modifier = Modifier
+                .width(100.dp)
+                .height(50.dp)
+        )
+    }
+}
+
+@Composable
+fun SingleTop(activity: MainActivity) {
+    Button(onClick = {
+        activity.startActivity(Intent(activity, OneActivity::class.java))
+    }) {
+        Text(
+            text = "启动第一个", modifier = Modifier
                 .width(100.dp)
                 .height(50.dp)
         )

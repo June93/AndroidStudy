@@ -1,5 +1,6 @@
-package com.june.androidstudy.coroutine
+package com.june.androidstudy.launchmode
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -11,23 +12,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.june.androidstudy.databinding.ActivityCoroutineBinding
+import com.june.androidstudy.databinding.ActivitySecondBinding
 import com.june.androidstudy.ui.theme.AndroidStudyTheme
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.supervisorScope
 
 /**
  * @author: zhuw
  **/
-class CoroutineActivity : ComponentActivity() {
+class SecondActivity : ComponentActivity() {
 
     private val tag = "CoroutineActivity"
-    private lateinit var binding: ActivityCoroutineBinding
+    private lateinit var binding: ActivitySecondBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,44 +36,23 @@ class CoroutineActivity : ComponentActivity() {
             AndroidStudyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AndroidViewBinding(
-                        factory = ActivityCoroutineBinding::inflate,
+                        factory = ActivitySecondBinding::inflate,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         binding = this
-                        testException1()
-                        testException2()
+                        binding.eBt1.setOnClickListener {
+                            startActivity(Intent(this@SecondActivity, OneActivity::class.java))
+                        }
                     }
                 }
             }
         }
     }
 
-
-    private fun testException1() {
-        binding.eBt1.setOnClickListener {
-            runBlocking {
-                Log.d(tag, "runBlocking 里面开始。。。。。。")
-                delay(200)
-                Log.d(tag, "runBlocking 里面结束。。。。。。")
-            }
-            Log.d(tag, "runBlocking 外面。。。。。。")
-        }
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        Log.d("activity","onNewIntent:${this.javaClass.simpleName}")
     }
-
-    private fun testException2() {
-        binding.eBt2.setOnClickListener {
-            GlobalScope.launch {
-                coroutineScope {  }
-                val job = launch {
-                    Log.d(Thread.currentThread().name, " 抛出未捕获异常")
-                    throw NullPointerException("异常测试")
-                }
-                job.join()
-                Log.d(Thread.currentThread().name, "end")
-            }
-        }
-    }
-
 
     override fun onRestart() {
         super.onRestart()

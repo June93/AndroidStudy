@@ -1,5 +1,6 @@
-package com.june.androidstudy.coroutine
+package com.june.androidstudy.launchmode
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -11,23 +12,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.june.androidstudy.databinding.ActivityCoroutineBinding
+import com.june.androidstudy.databinding.ActivityThirdBinding
 import com.june.androidstudy.ui.theme.AndroidStudyTheme
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.supervisorScope
 
 /**
  * @author: zhuw
  **/
-class CoroutineActivity : ComponentActivity() {
+class ThirdActivity : ComponentActivity() {
 
     private val tag = "CoroutineActivity"
-    private lateinit var binding: ActivityCoroutineBinding
+    private lateinit var binding: ActivityThirdBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +36,7 @@ class CoroutineActivity : ComponentActivity() {
             AndroidStudyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AndroidViewBinding(
-                        factory = ActivityCoroutineBinding::inflate,
+                        factory = ActivityThirdBinding::inflate,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         binding = this
@@ -75,6 +74,10 @@ class CoroutineActivity : ComponentActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        Log.d("activity","onNewIntent:${this.javaClass.simpleName}")
+    }
 
     override fun onRestart() {
         super.onRestart()
